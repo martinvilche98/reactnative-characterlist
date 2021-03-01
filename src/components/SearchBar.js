@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import {View,Text,TextInput, StyleSheet } from 'react-native';
 
-export class SearchBar extends Component {
-
-	render(){
+export const SearchBar = props => {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.bold}>Search:</Text>
-				<TextInput style={styles.textField} onChangeText={(text) => {this.props.filterMethod(text)}}/>
+				<TextInput style={styles.textField} onChangeText={(text) => {props.filterMethod(text)}}/>
 			</View>
 		)
-	}
 }
 
 const styles = StyleSheet.create({
