@@ -6,21 +6,21 @@
  * @flow strict-local
  */
 import React from 'react';
-import { View } from 'react-native';
-
+import { Provider } from 'react-redux'
+import { store } from './src/redux/rootReducer'
 /*
  * Views
  */
-import {CharacterList} from "./src/components/CharacterList"
+import {CharacterListView} from "./src/components/CharacterList"
 
-const App = () => {
+const Root = () => {
 
   return (
-      <View>
-        <CharacterList/>
-      </View>
+      <Provider store={store}>
+        <CharacterListView/>
+      </Provider>
   );
 };
 
 
-export default App;
+export default Root;
