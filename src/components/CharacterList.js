@@ -11,18 +11,21 @@ const CharacterList = (props) => {
 	const {characters} = characterListReducer
 	const [characterList, setCharacterList] = useState([])
 	const [searchFilter, setSearchBarFilter] = useState('')
-
+	const [loading, setLoading] = useState(true)
     useEffect(() => {
-		fetchCharacterList()
-		console.log(characters)
-		setCharacterList(characters)
-    }, [characters])
+			fetchCharacterList().then( res => {
+				console.log(characters)
+				setCharacterList(characters)
+				setLoading(false)
+			}).catch( err => console.log(err))
+    }, [loading])
 
-	// Function called by CharacterCard delete button to remove itself from the list.
+	// Called by CharacterCard delete button to remove itself from the list.
 	const onDelete = (name) => {
 		let filteredArray = characterList.filter( (val) => name !== val.name)
 		setCharacterList(filteredArray)
 	}
+
 
 	const setFilter = (name) =>{
 		setSearchBarFilter(name.toLowerCase())
@@ -36,8 +39,10 @@ const CharacterList = (props) => {
 		<View style={styles.container}>
 			<SearchBar filterMethod={setFilter}/>
 			<ScrollView>
-			{ characterList == null ? 
-				<View style={styles.loadingContainer}><Text style={styles.loadingText}>Requesting Characters ...</Text></View>: 
+			{ 
+				loading ? 
+				<View style={styles.loadingContainer}><Text style={styles.loadingText}>Loading, Please Wait</Text></View>
+				:
 				characterList != null && characterList.map((item,index)=>{
 					if(filterMatch(item.name))
 						return <CharacterCard key={index} character={item} deleteFunc={onDelete}/>
